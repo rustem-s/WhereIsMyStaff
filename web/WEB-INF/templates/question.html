@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Where is my stuff</title>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap-responsive.min.css"/>
+    <script src="/WhereIsMyStuff/js/jquery-2.1.1.min.js"></script>
+    <script src="/WhereIsMyStuff/js/script.js"></script>
+    <script src="/WhereIsMyStuff/js/bootstrap.js"></script>
+    <script src="/WhereIsMyStuff/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div>
+        <div class="main container">
+            <div class="header">
+                <div class="logo"><a href="/WhereIsMyStuff" th:text="#{header.logo}"/></div>
+                <div class="sign">
+                    <a th:if="${!auth}" href="login" th:text="#{header.sign}"/>
+                    <a th:if="${auth}" href="login" th:href="@{/j_spring_security_logout}" th:text="#{header.signout}"/>
+                </div>
+            </div>
+            <div>
+                <div class="create-question-toolbar">
+                    <div class="create-question">
+                        <span th:text="#{body.create-question}"/>
+                    </div>
+                </div>
+                <div>
+                    <form class="form-horizontal" action="#" th:action="@{/addQuestion}" th:object="${question}" method="post">
+                        <div class="control-group" style="margin-top:50px;">
+                            <label class="control-label" th:for="${#ids.next('title')}" th:text="#{body.title}"/>
+                            <div class="controls">
+                                <input type="text" th:field="*{title}" style="width: 80%;border: solid gray"/>
+                                <span th:if="${#fields.hasErrors('title')}" th.errors="*{title}" th:text="#{error.enter-val}"/>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" th:for="${#ids.next('body')}" th:text="#{body.question-body}"/>
+                            <div class="controls">
+                                <textarea rows="5" th:field="*{body}" cols="800" style="width: 80%;border: solid gray"/>
+                                <span th:if="${#fields.hasErrors('body')}" th.errors="*{body}" th:text="#{error.enter-val}"/>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <label class="control-label" th:for="${#ids.next('categories')}" th:text="#{body.question-categories}"/>
+                            <div class="controls">
+                                <label class="checkbox" th:each="c : ${categories}">
+                                    <input type="checkbox" th:field="*{categories}" th:value="${c.id}" /> <span th:text="${c.name}"/>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="control-group">
+                            <div class="controls">
+                                <button class="btn btn-primary" type="submit" th:text="#{body.post-question-button}"/>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

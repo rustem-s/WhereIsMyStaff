@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Where is my stuff</title>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap-responsive.min.css"/>
+    <script src="/WhereIsMyStuff/js/jquery-2.1.1.min.js"></script>
+    <script src="/WhereIsMyStuff/js/script.js"></script>
+    <script src="/WhereIsMyStuff/js/bootstrap.js"></script>
+    <script src="/WhereIsMyStuff/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div>
+        <div class="main container">
+            <div class="header">
+                <div class="logo"><a href="/WhereIsMyStuff" th:text="#{header.logo}"/></div>
+                <div class="sign"><a href="#" th:text="#{header.sign}"/></div>
+            </div>
+
+            <div class="container-fluid" style="margin-top: 150px;">
+                <div class="row-fluid">
+                    <div class="span6">
+                        <p th:if="${loginError}" class="error">Wrong user or password</p>
+                        <form class="form-horizontal" action="#" th:action="@{/j_spring_security_check}" method="post">
+                            <div class="controls">
+                                <h2 th:text="#{body.login}"/>
+                            </div>
+                            <div class="control-group" style="margin-top:50px;">
+                                <label class="control-label" th:for="${#ids.next('username')}" th:text="#{body.username}"/>
+                                <div class="controls">
+                                    <input type="text" id="j_username" name="j_username" autofocus="autofocus" style="border: solid gray"/>
+                                </div>
+                            </div>
+                            <div class="control-group" style="margin-top:50px;">
+                                <label class="control-label" th:for="${#ids.next('login-psw')}" th:text="#{body.password}"/>
+                                <div class="controls">
+                                    <input type="password" id="j_password" name="j_password" style="border: solid gray"/>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <button class="btn btn-primary" type="submit" th:text="#{body.signin}"/>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="control-group" style="margin-left: 190px;">
+                            <label class="control-label" th:text="#{body.signin-google}"/>
+                            <div class="controls">
+                                <button class="btn btn-danger" onclick="location.href = 'google_sign';" th:text="#{body.google}"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="span6">
+                        <form class="form-horizontal" action="#" th:action="@{/createUser}" th:object="${user}" method="post">
+                            <div class="controls">
+                                <h2 th:text="#{body.signup}"/>
+                            </div>
+                            <div class="control-group" style="margin-top:50px;">
+                                <label class="control-label" th:for="${#ids.next('username')}" th:text="#{body.username}"/>
+                                <div class="controls">
+                                    <input type="text" th:field="*{username}" style="border: solid gray"/>
+                                    <span th:if="${#fields.hasErrors('username')}" th.errors="*{username}" th:text="#{error.enter-val}"/>
+                                </div>
+                            </div>
+                            <div class="control-group" style="margin-top:50px;">
+                                <label class="control-label" th:for="${#ids.next('email')}" th:text="#{body.email}"/>
+                                <div class="controls">
+                                    <input type="text" th:field="*{email}" style="border: solid gray"/>
+                                    <span th:if="${#fields.hasErrors('email')}" th.errors="*{email}" th:text="#{error.enter-val}"/>
+                                </div>
+                            </div>
+                            <div class="control-group" style="margin-top:50px;">
+                                <label class="control-label" th:for="${#ids.next('psw')}" th:text="#{body.password}"/>
+                                <div class="controls">
+                                    <input type="text" th:field="*{psw}" style="border: solid gray"/>
+                                    <span th:if="${#fields.hasErrors('psw')}" th.errors="*{psw}" th:text="#{error.enter-val}"/>
+                                </div>
+                            </div>
+                            <div class="control-group">
+                                <div class="controls">
+                                    <button class="btn btn-primary" type="submit" th:text="#{body.signup}"/>
+                                </div>
+                            </div>
+
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</body>
+</html>

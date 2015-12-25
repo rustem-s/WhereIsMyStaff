@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Where is my stuff</title>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap-responsive.min.css"/>
+    <script src="/WhereIsMyStuff/js/jquery-2.1.1.min.js"></script>
+    <script src="/WhereIsMyStuff/js/script.js"></script>
+    <script src="/WhereIsMyStuff/js/bootstrap.js"></script>
+    <script src="/WhereIsMyStuff/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div>
+        <div class="main container">
+            <div class="header">
+                <div class="logo"><a href="/WhereIsMyStuff" th:text="#{header.logo}"/></div>
+                <div class="sign">
+                    <a th:if="${!auth}" href="login" th:text="#{header.sign}"/>
+                    <a th:if="${auth}" href="login" th:href="@{/j_spring_security_logout}" th:text="#{header.signout}"/>
+                </div>
+            </div>
+            <div>
+                <div class="toolbar">
+                    <div class="category">
+                        <span th:text="#{body.categories}"/>:&nbsp;<span th:each="c : ${categories}">&nbsp;<a th:href="@{/(category=${c.name})}" th:text="${c.name}"/></span>
+                    </div>
+                    <div class="ask-question-button">
+                        <button class="btn btn-primary" th:text="#{body.ask-question-button}" onclick="location.href = 'question';"/>
+                    </div>
+                </div>
+                <div class="questions">
+                    <div style="text-align: center;margin-top: 50px;"><span th:if="${#lists.size(questions)} &lt; 1" th:text="#{body.empty}"/></div>
+                    <table cellspacing="0" cellpadding="5" width="100%">
+                        <tr th:each="q : ${questions}">
+                            <td class="questions-td" >
+                                <table class="question-details">
+                                    <tr>
+                                        <td width="15%"><span th:text="${#lists.size(q.answers) } "/>&nbsp;<span th:text="#{body.answers-count} "/></td>
+                                        <td width="75%" colspan="2">
+                                            <a th:href="@{'question/' + ${q.id}}" th:text="${q.title}"/>
+                                        </td>
+                                        <td/>
+                                    </tr>
+                                    <tr>
+                                        <td width="15%"/>
+                                        <td width="40%">
+                                            <span th:text="#{body.categories}"/>:&nbsp;
+
+                                            <span th:each="c : ${q.categories}">&nbsp;
+                                                <span th:text="${c.name}"/>
+                                            </span>
+                                        </td>
+                                        <td width="35%"><span th:text="#{body.publish-date}"/>:&nbsp;<span th:text="${q.createDate}"/></td>
+                                        <td><a th:href="@{'users/'} + ${q.user.username}" th:text="${q.user.username}"/></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

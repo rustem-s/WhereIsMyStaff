@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Where is my stuff</title>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap-responsive.min.css"/>
+    <script src="/WhereIsMyStuff/js/jquery-2.1.1.min.js"></script>
+    <script src="/WhereIsMyStuff/js/script.js"></script>
+    <script src="/WhereIsMyStuff/js/bootstrap.js"></script>
+    <script src="/WhereIsMyStuff/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div>
+        <div class="main container">
+            <div class="header">
+                <div class="logo"><a href="/WhereIsMyStuff" th:text="#{header.logo}"/></div>
+                <div class="sign">
+                    <a th:if="${!auth}" href="login" th:text="#{header.sign}"/>
+                    <a th:if="${auth}" href="login" th:href="@{/j_spring_security_logout}" th:text="#{header.signout}"/>
+                </div>
+            </div>
+            <div>
+                <div class="create-question-toolbar">
+                    <div class="create-question">
+                        <span th:text="${question.title}"/>
+                    </div>
+                </div>
+                <div class="answer-question-body">
+                    <table cellspacing="0" cellpadding="30" style="height: 50px;">
+                        <tr>
+                            <td width="85%" colspan="2">
+                                <span th:text="${question.body}"/>
+                            </td>
+                            <td/>
+                        </tr>
+                        <tr>
+                            <td width="65%">
+                                <span th:text="#{body.categories}"/>:&nbsp;
+                                    <span th:each="c : ${question.categories}">&nbsp;
+                                        <span th:text="${c.name}"/>
+                                    </span>
+                            </td>
+                            <td width="35%"><span th:text="#{body.publish-date}"/>:&nbsp;<span th:text="${question.createDate}"/></td>
+                            <td><a th:href="@{'users/'} + ${question.user.username}" th:text="${question.user.username}"/></td>
+                        </tr>
+                    </table>
+                </div>
+
+                <table width="100%" cellpadding="10">
+                    <tr th:each="a : ${question.answers}">
+                        <td>
+                            <div style="border: solid gray">
+                                <table cellspacing="0" cellpadding="5" width="100%">
+                                    <tr>
+                                        <td width="95%" colspan="2">
+                                            <span th:text="${a.body}"/>
+                                        </td>
+                                        <td/>
+                                    </tr>
+                                    <tr>
+                                        <td width="60%"/>
+                                        <td width="30%"><span th:text="#{body.publish-date}"/>:&nbsp;<span th:text="${a.createDate}"/></td>
+                                        <td><a th:href="@{'/users/'} + ${a.user.username}" th:text="${a.user.username}"/></td>
+                                    </tr>
+                                </table>
+                            </div>
+                        </td>
+                    </tr>
+                </table>
+                <span th:text="#{body.your-answer}" style="line-height: 50px;margin-left: 30px"/>
+                <form action="#" th:action="@{/addAnswer}" th:object="${answer}" method="post" style="margin: 0 30px 0 30px;">
+                    <textarea rows="5" th:field="*{body}" style="width:100%; border: solid gray"/>
+                    <span th:if="${#fields.hasErrors('body')}" th.errors="*{body}" th:text="#{error.enter-val}"/>
+                    <input type="hidden" id="question" name="question" th:value="${question.id}" />
+                    <button class="btn btn-primary" type="submit" th:text="#{body.post}"/>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

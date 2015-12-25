@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Where is my stuff</title>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/style.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap.min.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap-responsive.css"/>
+    <link rel="stylesheet" type="text/css" href="/WhereIsMyStuff/css/bootstrap-responsive.min.css"/>
+    <script src="/WhereIsMyStuff/js/jquery-2.1.1.min.js"></script>
+    <script src="/WhereIsMyStuff/js/script.js"></script>
+    <script src="/WhereIsMyStuff/js/bootstrap.js"></script>
+    <script src="/WhereIsMyStuff/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div>
+        <div class="main container">
+            <div class="header">
+                <div class="logo"><a href="/WhereIsMyStuff" th:text="#{header.logo}"/></div>
+                <div class="sign">
+                    <a th:if="${!auth}" href="login" th:text="#{header.sign}"/>
+                    <a th:if="${auth}" href="login" th:href="@{/j_spring_security_logout}" th:text="#{header.signout}"/>
+                </div>
+            </div>
+            <div>
+                <div>
+                    <div class="create-question-toolbar">
+                        <div class="create-question">
+                            <span th:text="@{${user.username} + #{body.profile}}"/>
+                        </div>
+                        <div th:if="${canEdit}" class="ask-question-button">
+                            <a th:href="@{${user.username} + '/edit'}" th:text="#{body.edit}"/>
+                        </div>
+                    </div>
+                </div>
+                <div style="margin-top:50px;margin-left: 50px;">
+                    <img th:src="@{'data:image/png;base64,'+${pictureBase64}}" alt=""/>
+                </div>
+                <div>
+                    <form class="form-horizontal">
+                        <div class="control-group" style="margin-top:50px;">
+                            <label class="control-label" th:for="${#ids.next('username')}" th:text="#{body.username}"/>
+                            <div class="controls">
+                                <span id="username" th:text="${user.username}" style="width: 80%;"/>
+                            </div>
+                        </div>
+                        <div class="control-group" style="margin-top:30px;">
+                            <label class="control-label" th:for="${#ids.next('email')}" th:text="#{body.email}"/>
+                            <div class="controls">
+                                <span id="email" th:text="${user.email}" style="width: 80%;"/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
